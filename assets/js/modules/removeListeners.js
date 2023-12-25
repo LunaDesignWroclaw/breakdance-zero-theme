@@ -1,4 +1,4 @@
-window.removeAllEventListeners = (selector) => {
+function removeAllEventListeners (selector) {
     // Znajdź element za pomocą selektora
     const element = document.querySelector(selector);
 
@@ -15,4 +15,8 @@ window.removeAllEventListeners = (selector) => {
     element.parentNode.replaceChild(clonedElement, element);
 }
 
-alert('Hello World!');
+if (!window.CustomFunctions) {
+    window.CustomFunctions = {};
+}
+
+window.CustomFunctions.removeAllEventListeners = removeAllEventListeners;

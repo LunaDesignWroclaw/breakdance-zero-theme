@@ -1,1 +1,1 @@
-alert('main.js');
+console.log(CustomFunctions.removeAllEventListeners)
