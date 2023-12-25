@@ -15,6 +15,7 @@ function removeAllEventListeners (selector) {
     element.parentNode.replaceChild(clonedElement, element);
 }
 
+// Zarejestruj funkcję w obiekcie CustomFunctions
 if (!window.CustomFunctions) {
     window.CustomFunctions = {};
 }

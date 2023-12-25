@@ -35,6 +35,7 @@ function warn_if_breakdance_is_disabled()
       <?php
 }
 
+// Register form actions
 if (defined('__BREAKDANCE_DIR__') && defined('BREAKDANCE_FORM_ACTIONS_DIR')) {
     foreach (glob( BREAKDANCE_FORM_ACTIONS_DIR .'/*.php') as $file) {
         require_once $file;
@@ -43,4 +44,10 @@ if (defined('__BREAKDANCE_DIR__') && defined('BREAKDANCE_FORM_ACTIONS_DIR')) {
         \Breakdance\Forms\Actions\registerAction($reflection->newInstance());
     }
 }
+
+add_action('breakdance_reusable_dependencies_urls', function ($urls) {
+    $urls['gsap'] = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js';
+    error_log(json_encode($urls));
+    return $urls;
+ });
 ?>

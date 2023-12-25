@@ -15,3 +15,6 @@ require_once THEME_DIR . '/inc/safe-logout.php';
 
 // Load main javascript file and pass data to it
 require_once THEME_DIR . '/inc/load-js.php';
+
+// Load dividers
+require_once THEME_DIR . '/inc/dividers.php';
