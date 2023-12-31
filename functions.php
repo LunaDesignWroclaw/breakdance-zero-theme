@@ -21,3 +21,6 @@ require_once THEME_DIR . '/inc/dividers.php';
 
 // Load reusable dependencies
 require_once THEME_DIR . '/inc/reusable-dependencies.php';
+
+// Load design library
+require_once THEME_DIR . '/inc/design-library.php';
