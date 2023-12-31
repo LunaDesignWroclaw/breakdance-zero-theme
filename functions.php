@@ -18,3 +18,6 @@ require_once THEME_DIR . '/inc/load-js.php';
 
 // Load dividers
 require_once THEME_DIR . '/inc/dividers.php';
+
+// Load reusable dependencies
+require_once THEME_DIR . '/inc/reusable-dependencies.php';
