@@ -41,7 +41,7 @@ function my_theme_assets()
 
     $main_script_name = 'theme-main-js';
     $main_script_version = filemtime($main_script_path);
-    $main_script_dependencies = array('removeListeners');
+    $main_script_dependencies = array('removeListeners', 'dma');
 
 
     wp_enqueue_script($main_script_name, $main_script_url, $main_script_dependencies, $main_script_version, true);
