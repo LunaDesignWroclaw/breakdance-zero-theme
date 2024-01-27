@@ -1,5 +1,7 @@
 <?php
 
+require __DIR__ . '/vendor/autoload.php';
+
 // Create constants for directory and URI
 define('THEME_DIR', get_template_directory());
 define('THEME_URI', get_template_directory_uri());
