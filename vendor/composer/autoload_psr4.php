@@ -6,5 +6,5 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
-    'Appsero\\' => array($vendorDir . '/appsero/client/src'),
+    'Appsero\\' => array($vendorDir . '/appsero/client/src', $vendorDir . '/appsero/updater/src'),
 );

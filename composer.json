@@ -1,5 +1,6 @@
 {
     "require": {
-        "appsero/client": "^2.0"
+        "appsero/client": "^2.0",
+        "appsero/updater": "^1.0"
     }
 }

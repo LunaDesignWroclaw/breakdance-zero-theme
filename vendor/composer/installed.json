@@ -56,6 +56,46 @@
                 "source": "https://github.com/Appsero/client/tree/v2.0.1"
             },
             "install-path": "../appsero/client"
+        },
+        {
+            "name": "appsero/updater",
+            "version": "v1.0.0",
+            "version_normalized": "1.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Appsero/updater.git",
+                "reference": "541cf090d42a9354aee2cf6438b3eee0e5e34a99"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Appsero/updater/zipball/541cf090d42a9354aee2cf6438b3eee0e5e34a99",
+                "reference": "541cf090d42a9354aee2cf6438b3eee0e5e34a99",
+                "shasum": ""
+            },
+            "time": "2023-12-06T08:32:44+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Appsero\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tareq Hasan",
+                    "email": "tareq@appsero.com"
+                }
+            ],
+            "description": "Appsero client updater module",
+            "support": {
+                "issues": "https://github.com/Appsero/updater/issues",
+                "source": "https://github.com/Appsero/updater/tree/v1.0.0"
+            },
+            "install-path": "../appsero/updater"
         }
     ],
     "dev": true,
