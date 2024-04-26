@@ -45,7 +45,7 @@ class ExampleAction extends Breakdance\Forms\Actions\Action
             $errors[] = 'Nie uzupełniono pola "name".';
         }
 
-       // Jeśli tablica $errors nie jest pusta to zwróć tablicę z błędami
+        // Jeśli tablica $errors nie jest pusta to zwróć tablicę z błędami
         if (count($errors) > 0) {
             return ['type' => 'error', 'message' => implode('<br>', $errors)];
         }
@@ -53,6 +53,3 @@ class ExampleAction extends Breakdance\Forms\Actions\Action
         return ['type' => 'success', 'message' => 'Akcja przykładowa wykonana.'];
     }
 }
-
-
-?>
