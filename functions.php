@@ -27,7 +27,7 @@ function appsero_init_tracker_lunadesign_zero_theme()
   $client->insights()->init();
 
   // Active automatic updater
-  Appsero\Updater::init($client);
+  $client->updater();
 }
 
 appsero_init_tracker_lunadesign_zero_theme();
