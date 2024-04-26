@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "appsero/client",
-            "version": "v2.0.1",
+            "version": "v2.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Appsero/client.git",
-                "reference": "b87e7593c6295748e88cdbfc92a638c8a73462ce"
+                "reference": "b61c3ab21df4d44f805ee9476f9d880f8370a36b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Appsero/client/zipball/b87e7593c6295748e88cdbfc92a638c8a73462ce",
-                "reference": "b87e7593c6295748e88cdbfc92a638c8a73462ce",
+                "url": "https://api.github.com/repos/Appsero/client/zipball/b61c3ab21df4d44f805ee9476f9d880f8370a36b",
+                "reference": "b61c3ab21df4d44f805ee9476f9d880f8370a36b",
                 "shasum": ""
             },
             "require": {
@@ -56,9 +56,9 @@
             ],
             "support": {
                 "issues": "https://github.com/Appsero/client/issues",
-                "source": "https://github.com/Appsero/client/tree/v2.0.1"
+                "source": "https://github.com/Appsero/client/tree/v2.0.2"
             },
-            "time": "2024-01-16T11:20:48+00:00"
+            "time": "2024-01-30T08:15:01+00:00"
         },
         {
             "name": "appsero/updater",

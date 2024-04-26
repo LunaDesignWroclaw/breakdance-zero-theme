@@ -14,20 +14,20 @@ define('BREAKDANCE_FORM_ACTIONS_DIR', THEME_DIR . '/inc/breakdance-form-actions'
  *
  * @return void
  */
-function appsero_init_tracker_lunadesign_zero_theme() {
+function appsero_init_tracker_lunadesign_zero_theme()
+{
 
-    if ( ! class_exists( 'Appsero\Client' ) ) {
-      require_once __DIR__ . '/appsero/src/Client.php';
-    }
+  if (!class_exists('Appsero\Client')) {
+    require_once __DIR__ . '/appsero/src/Client.php';
+  }
 
-    $client = new Appsero\Client( '5b83a102-67ce-48ed-ac5f-3cf447f0c370', 'Breakdance Zero Theme', __FILE__ );
+  $client = new Appsero\Client('5b83a102-67ce-48ed-ac5f-3cf447f0c370', 'Breakdance Zero Theme', __FILE__);
 
-    // Active insights
-    $client->insights()->init();
+  // Active insights
+  $client->insights()->init();
 
-    // Active automatic updater
-    Appsero\Updater::init($client);
-
+  // Active automatic updater
+  Appsero\Updater::init($client);
 }
 
 appsero_init_tracker_lunadesign_zero_theme();
