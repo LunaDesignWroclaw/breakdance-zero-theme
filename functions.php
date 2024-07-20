@@ -1,5 +1,5 @@
 <?php
-// Path: wp-content/themes/breakdance-zero-theme/functions.php
+// Path: 123
 
 // Create constants for directory and URI
 define('THEME_DIR', get_template_directory());
