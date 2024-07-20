@@ -94,8 +94,6 @@ function breakdance_zero_theme_update_themes($transient) {
     $data = array(
         'theme' => $stylesheet,
         'url' => $remote->details_url,
-        'requires' => $remote->requires,
-        'requires_php' => $remote->requires_php,
         'new_version' => $remote->version,
         'package' => $remote->download_url,
     );
