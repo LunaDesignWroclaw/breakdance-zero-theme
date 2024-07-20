@@ -1,5 +1,5 @@
 <?php
-// Path: 123
+// Path: 12qqe3
 
 // Create constants for directory and URI
 define('THEME_DIR', get_template_directory());
@@ -124,8 +124,6 @@ function breakdance_zero_theme_update_themes($transient) {
         // Check all the versions now
         if (
             version_compare($version, $remote->version, '<')
-            && version_compare($remote->requires, get_bloginfo('version'), '<')
-            && version_compare($remote->requires_php, PHP_VERSION, '<')
         ) {
             $transient->response[$stylesheet] = $data;
         } else {
