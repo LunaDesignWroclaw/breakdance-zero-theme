@@ -44,49 +44,35 @@ function enqueue_theme_scripts() {
 }
 
 // Check for theme updates
-add_filter('site_transient_update_themes', 'misha_update_themes');
+add_filter('site_transient_update_themes', 'breakdance_zero_theme_update_themes');
 
 function breakdance_zero_theme_update_themes($transient) {
     // Ensure $transient is an object
     if (!is_object($transient)) {
         $transient = new stdClass();
+        $transient->response = array();
+        $transient->no_update = array();
     }
 
     // Let's get the theme directory name
-    $stylesheet = get_template();
+    $stylesheet = get_stylesheet(); // Use get_stylesheet() instead of get_template() to ensure child themes are correctly handled
 
     // Now let's get the theme version
-    $theme = wp_get_theme();
+    $theme = wp_get_theme($stylesheet);
     $version = $theme->get('Version');
 
     // Check if we have a cached response or if force-check is triggered
     $force_check = (defined('DOING_CRON') && DOING_CRON) || (isset($_GET['force-check']) && $_GET['force-check'] == 1);
-    $remote = get_transient('breakdance-zero-theme-update-' . $version);
+    $remote = get_transient('breakdance-zero-theme-update-' . $stylesheet);
 
-    // Ensure remote is valid object
-    if (!$remote || $force_check || !is_object($remote)) {
-        $args = array(
+    if ($force_check || !$remote || !is_object($remote)) {
+        $response = wp_remote_get('https://breakdance-zero-theme.cytr.us/info.php', array(
             'timeout' => 10,
             'headers' => array(
                 'Accept' => 'application/json'
             )
-        );
+        ));
 
-        // Adding If-Modified-Since and If-None-Match headers to reduce data usage
-        if (isset($remote->headers->last_modified)) {
-            $args['headers']['If-Modified-Since'] = $remote->headers->last_modified;
-        }
-        if (isset($remote->headers->etag)) {
-            $args['headers']['If-None-Match'] = $remote->headers->etag;
-        }
-
-        // Connect to a remote server where the update information is stored
-        $response = wp_remote_get('https://breakdance-zero-theme.cytr.us/info.php', $args);
-
-        // Log the response for debugging
-        error_log(print_r($response, true));
-
-        // Do nothing if errors
         if (
             is_wp_error($response)
             || 200 !== wp_remote_retrieve_response_code($response)
@@ -95,35 +81,29 @@ function breakdance_zero_theme_update_themes($transient) {
             return $transient;
         }
 
-        // Parse the response
         $remote = json_decode(wp_remote_retrieve_body($response));
 
         if (!$remote) {
             return $transient; // Who knows, maybe JSON is not valid
         }
 
-        // Cache the response for 1 hour if not force-check
-        if (!$force_check) {
-            $remote->headers = array(
-                'last_modified' => wp_remote_retrieve_header($response, 'last-modified'),
-                'etag' => wp_remote_retrieve_header($response, 'etag')
-            );
-            set_transient('breakdance-zero-theme-update-' . $version, $remote, HOUR_IN_SECONDS);
-        }
+        set_transient('breakdance-zero-theme-update-' . $stylesheet, $remote, HOUR_IN_SECONDS);
     }
 
-    // Ensure $remote is an object before accessing its properties
     if (is_object($remote)) {
         $data = array(
-            'theme' => $stylesheet,
+            'theme' => $remote->slug ?? $stylesheet, // Use slug from remote if available
             'url' => $remote->details_url ?? '',
+            'requires' => $remote->requires ?? '',
+            'requires_php' => $remote->requires_php ?? '',
             'new_version' => $remote->version ?? '',
             'package' => $remote->download_url ?? '',
         );
 
-        // Check all the versions now
         if (
             version_compare($version, $remote->version, '<')
+            && version_compare($remote->requires, get_bloginfo('version'), '<=')
+            && version_compare($remote->requires_php, PHP_VERSION, '<=')
         ) {
             $transient->response[$stylesheet] = $data;
         } else {
@@ -133,72 +113,3 @@ function breakdance_zero_theme_update_themes($transient) {
 
     return $transient;
 }
-
-function misha_update_themes( $transient ) {
-
-	// let's get the theme directory name
-	// it will be "misha-theme"
-	$stylesheet = get_template();
-
-	// now let's get the theme version
-	// but maybe it is better to hardcode it in a constant
-	$theme = wp_get_theme();
-	$version = $theme->get( 'Version' );
-
-
-	// connect to a remote server where the update information is stored
-	$remote = wp_remote_get(
-		'https://breakdance-zero-theme.cytr.us/info.php',
-		array(
-			'timeout' => 10,
-			'headers' => array(
-				'Accept' => 'application/json'
-			)
-		)
-	);
-
-	// do nothing if errors
-	if(
-		is_wp_error( $remote )
-		|| 200 !== wp_remote_retrieve_response_code( $remote )
-		|| empty( wp_remote_retrieve_body( $remote ) )
-	) {
-		return $transient;
-	}
-
-	// encode the response body
-	$remote = json_decode( wp_remote_retrieve_body( $remote ) );
-	
-	if( ! $remote ) {
-		return $transient; // who knows, maybe JSON is not valid
-	}
-	
-	$data = array(
-		'theme' => $stylesheet,
-		'url' => $remote->details_url,
-		'requires' => $remote->requires,
-		'requires_php' => $remote->requires_php,
-		'new_version' => $remote->version,
-		'package' => $remote->download_url,
-	);
-
-	// check all the versions now
-	if(
-		$remote
-		&& version_compare( $version, $remote->version, '<' )
-		&& version_compare( $remote->requires, get_bloginfo( 'version' ), '<' )
-		&& version_compare( $remote->requires_php, PHP_VERSION, '<' )
-	) {
-
-		$transient->response[ $stylesheet ] = $data;
-
-	} else {
-
-		$transient->no_update[ $stylesheet ] = $data;
-
-	}
-
-	return $transient;
-
-}
-
