@@ -14,6 +14,21 @@ if (!defined('LUNA_STRONA_URI')) {
   define('LUNA_STRONA_URI', content_url('/luna-strona'));
 }
 
+// Ścieżka / adres pliku: najpierw wp-content/luna-strona, potem motyw (dla kodu strony budującego ścieżki dynamicznie).
+if (!function_exists('luna_zero_sciezka')) {
+  function luna_zero_sciezka($wzgledna)
+  {
+    $w = '/' . ltrim((string) $wzgledna, '/');
+    return file_exists(LUNA_STRONA_DIR . $w) ? LUNA_STRONA_DIR . $w : get_template_directory() . $w;
+  }
+
+  function luna_zero_adres($wzgledna)
+  {
+    $w = '/' . ltrim((string) $wzgledna, '/');
+    return file_exists(LUNA_STRONA_DIR . $w) ? LUNA_STRONA_URI . $w : get_template_directory_uri() . $w;
+  }
+}
+
 function set_database_encoding()
 {
   global $wpdb;
