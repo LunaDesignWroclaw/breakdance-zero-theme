@@ -39,7 +39,7 @@
   "composer.json": "3cecb8b887a69554056fa004e4a91ca0",
   "composer.lock": "b2e217da8e90f3adc658242fe8f2a312",
   "footer.php": "a7e69067fba06c7584b871ef8f377cee",
-  "functions.php": "6a15672dd82f7337dbe1c312ffeec8b8",
+  "functions.php": "02a561c78e25316ad50d511c7c041763",
   "header.php": "4157f0582f2be8a0de970e19b43a1672",
   "inc/breakdance-form-actions/ExampleAction.php": "8f82baae2da31b6878ea5fabf09d619e",
   "inc/breakdance-form-actions/FluentCrmNewsletter.php": "4a9be5d3f0741ff6b58a8eebfa9f8c05",
