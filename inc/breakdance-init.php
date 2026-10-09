@@ -35,19 +35,35 @@ function warn_if_breakdance_is_disabled()
       <?php
 }
 
-// Register form actions
+// Register form actions: z motywu (inc/breakdance-form-actions) i z kodu strony (wp-content/luna-strona/breakdance-form-actions).
+// Nazwa pliku = nazwa klasy akcji.
 if (defined('__BREAKDANCE_DIR__') && defined('BREAKDANCE_FORM_ACTIONS_DIR')) {
-    foreach (glob( BREAKDANCE_FORM_ACTIONS_DIR .'/*.php') as $file) {
-        require_once $file;
-        $class_name = basename($file, '.php');
-        $reflection = new ReflectionClass($class_name);
-        \Breakdance\Forms\Actions\registerAction($reflection->newInstance());
+    $luna_katalogi_akcji = array(BREAKDANCE_FORM_ACTIONS_DIR);
+    if (defined('LUNA_STRONA_DIR')) {
+        $luna_katalogi_akcji[] = LUNA_STRONA_DIR . '/breakdance-form-actions';
     }
+    foreach ($luna_katalogi_akcji as $luna_katalog) {
+        foreach ((array) glob($luna_katalog . '/*.php') as $file) {
+            $class_name = basename($file, '.php');
+            if (class_exists($class_name, false)) {
+                continue; // ta sama akcja już wczytana (np. z motywu)
+            }
+            try {
+                require_once $file;
+                if (!class_exists($class_name, false)) {
+                    continue;
+                }
+                $reflection = new ReflectionClass($class_name);
+                \Breakdance\Forms\Actions\registerAction($reflection->newInstance());
+            } catch (Throwable $e) {
+                error_log('[Zero Theme] Nie udało się wczytać akcji formularza ' . $class_name . ': ' . $e->getMessage());
+            }
+        }
+    }
+    unset($luna_katalogi_akcji, $luna_katalog);
 }
 
 add_action('breakdance_reusable_dependencies_urls', function ($urls) {
     $urls['gsap'] = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.8.0/gsap.min.js';
-    error_log(json_encode($urls));
     return $urls;
- });
-?>
+});

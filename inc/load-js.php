@@ -6,19 +6,35 @@ $js_url = THEME_URI . '/assets/js'; // Pobierz adres URL do katalogu motywu
 $main_script_path = $js_path . '/main.js';
 $main_script_url = $js_url . '/main.js';
 
+// Kod strony może mieć własny main.js i moduły w wp-content/luna-strona/assets/js/ (mają pierwszeństwo przed motywem).
+if (defined('LUNA_STRONA_DIR') && is_readable(LUNA_STRONA_DIR . '/assets/js/main.js')) {
+    $main_script_path = LUNA_STRONA_DIR . '/assets/js/main.js';
+    $main_script_url = LUNA_STRONA_URI . '/assets/js/main.js';
+}
+
 function register_my_modules()
 {
     global $js_path, $js_url, $main_script_path;
 
-    $module_path = $js_path . '/modules/';
-    $module_url = $js_url . '/modules/';
+    $katalogi = array();
+    if (defined('LUNA_STRONA_DIR')) {
+        $katalogi[] = array(LUNA_STRONA_DIR . '/assets/js/modules/', LUNA_STRONA_URI . '/assets/js/modules/');
+    }
+    $katalogi[] = array($js_path . '/modules/', $js_url . '/modules/');
 
-    if (file_exists($module_path)) {
+    foreach ($katalogi as $katalog) {
+        list($module_path, $module_url) = $katalog;
+        if (!is_dir($module_path)) {
+            continue;
+        }
         $module_files = array_diff(scandir($module_path), array('..', '.'));
 
         foreach ($module_files as $file) {
             if (pathinfo($file, PATHINFO_EXTENSION) === 'js') {
                 $file_name = pathinfo($file, PATHINFO_FILENAME);
+                if (wp_script_is($file_name, 'registered')) {
+                    continue; // moduł strony ma pierwszeństwo przed modułem motywu
+                }
                 wp_register_script(
                     $file_name,
                     $module_url . $file,
@@ -52,6 +68,7 @@ function my_theme_assets()
             'site_url' => get_site_url(),
             'home_url' => get_home_url(),
             'theme_url' => get_theme_file_uri(),
+            'luna_strona_url' => defined('LUNA_STRONA_URI') ? LUNA_STRONA_URI : '',
             'site_name' => get_bloginfo('name'),
             'site_description' => get_bloginfo('description'),
             'site_icon' => get_site_icon_url(),

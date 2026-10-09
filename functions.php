@@ -5,6 +5,15 @@ require __DIR__ . '/vendor/autoload.php';
 define('THEME_DIR', get_template_directory());
 define('THEME_URI', get_template_directory_uri());
 
+// Kod konkretnej strony trzymamy POZA motywem, w wp-content/luna-strona/ (aktualizacje motywu go nie ruszają).
+// Nie dopisuj kodu strony do plików motywu: zobacz readme.md.
+if (!defined('LUNA_STRONA_DIR')) {
+  define('LUNA_STRONA_DIR', WP_CONTENT_DIR . '/luna-strona');
+}
+if (!defined('LUNA_STRONA_URI')) {
+  define('LUNA_STRONA_URI', content_url('/luna-strona'));
+}
+
 function set_database_encoding()
 {
   global $wpdb;
@@ -45,6 +54,9 @@ function appsero_init_tracker_lunadesign_zero_theme()
 
 appsero_init_tracker_lunadesign_zero_theme();
 
+// Strażnik aktualizacji: blokuje aktualizację motywu, gdy na stronie zmieniono jego pliki (kod strony zostałby skasowany).
+require_once THEME_DIR . '/inc/straznik-aktualizacji.php';
+
 // This is a theme for Breakdance. Check if Breakdance is enabled and if so, load the theme.
 require_once THEME_DIR . '/inc/breakdance-init.php';
 
@@ -62,3 +74,11 @@ require_once THEME_DIR . '/inc/reusable-dependencies.php';
 
 // Load design library
 require_once THEME_DIR . '/inc/design-library.php';
+
+// Wspólne ustawienia stron Luna Design (limit zdjęć, WooCommerce)
+require_once THEME_DIR . '/inc/wspolne.php';
+
+// Kod konkretnej strony: wp-content/luna-strona/functions.php (ładowany na końcu, jak dawniej kod dopisany na końcu tego pliku)
+if (is_readable(LUNA_STRONA_DIR . '/functions.php')) {
+  require_once LUNA_STRONA_DIR . '/functions.php';
+}

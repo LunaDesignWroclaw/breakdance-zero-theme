@@ -5,6 +5,7 @@
         "composer.json",
         "composer.lock",
         ".gitignore",
-        "assets/src"
+        "assets/src",
+        "zbuduj_manifest.py"
     ]
 }
