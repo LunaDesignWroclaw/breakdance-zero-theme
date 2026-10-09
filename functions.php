@@ -5,6 +5,15 @@ require __DIR__ . '/vendor/autoload.php';
 define('THEME_DIR', get_template_directory());
 define('THEME_URI', get_template_directory_uri());
 
+function set_database_encoding()
+{
+  global $wpdb;
+  $wpdb->query("SET NAMES 'utf8mb4'");
+  $wpdb->query("SET CHARACTER SET utf8mb4");
+}
+add_action('init', 'set_database_encoding');
+
+
 // Breakdance form actions directory
 define('BREAKDANCE_FORM_ACTIONS_DIR', THEME_DIR . '/inc/breakdance-form-actions');
 
@@ -27,7 +36,11 @@ function appsero_init_tracker_lunadesign_zero_theme()
   $client->insights()->init();
 
   // Active automatic updater
-  Appsero\Updater::init($client);
+  try {
+      $client->updater();
+  } catch (Exception $e) {
+      // Handle the exception here, e.g. log an error message or display a friendly error to the user
+  }
 }
 
 appsero_init_tracker_lunadesign_zero_theme();

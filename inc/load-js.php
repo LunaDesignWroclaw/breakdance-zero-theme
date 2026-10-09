@@ -41,23 +41,27 @@ function my_theme_assets()
 
     $main_script_name = 'theme-main-js';
     $main_script_version = filemtime($main_script_path);
-    $main_script_dependencies = array('removeListeners');
+    $main_script_dependencies = array('removeListeners', 'Hyphenopoly_Loader');
 
 
     wp_enqueue_script($main_script_name, $main_script_url, $main_script_dependencies, $main_script_version, true);
-    wp_localize_script($main_script_name, 'themeData', array(
-        'site_url' => get_site_url(),
-        'home_url' => get_home_url(),
-        'theme_url' => get_theme_file_uri(),
-        'site_name' => get_bloginfo('name'),
-        'site_description' => get_bloginfo('description'),
-        'site_icon' => get_site_icon_url(),
-        'ajax_url' => admin_url('admin-ajax.php'),
-        'is_user_logged_in' => is_user_logged_in(),
-        'current_user_id' => get_current_user_id(),
-        'post_id' => get_the_ID(),
-        'nonce' => wp_create_nonce('wp_rest'),
-    ));
+    wp_localize_script(
+        $main_script_name,
+        'themeData',
+        array(
+            'site_url' => get_site_url(),
+            'home_url' => get_home_url(),
+            'theme_url' => get_theme_file_uri(),
+            'site_name' => get_bloginfo('name'),
+            'site_description' => get_bloginfo('description'),
+            'site_icon' => get_site_icon_url(),
+            'ajax_url' => admin_url('admin-ajax.php'),
+            'is_user_logged_in' => is_user_logged_in(),
+            'current_user_id' => get_current_user_id(),
+            'post_id' => get_the_ID(),
+            'nonce' => wp_create_nonce('wp_rest'),
+        )
+    );
 
 }
 add_action('wp_enqueue_scripts', 'register_my_modules');
