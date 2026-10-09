@@ -61,6 +61,12 @@ add_filter('upgrader_source_selection', function ($zrodlo, $zrodlo_zdalne, $upgr
         return $zrodlo;
     }
     global $wp_filesystem;
+    // Paczka musi być pełnym motywem (WordPress przy aktualizacji tego nie sprawdza i pusta paczka skasowałaby motyw).
+    $styl = trailingslashit($zrodlo) . 'style.css';
+    $naglowek = file_exists($styl) ? get_file_data($styl, array('nazwa' => 'Theme Name')) : array('nazwa' => '');
+    if ($naglowek['nazwa'] !== 'Breakdance Zero Theme' || !file_exists(trailingslashit($zrodlo) . 'functions.php')) {
+        return new WP_Error('luna_zero_paczka', 'Paczka aktualizacji nie wygląda na Breakdance Zero Theme (brak style.css albo functions.php). Aktualizacja przerwana.');
+    }
     $cel = trailingslashit(dirname(untrailingslashit($zrodlo))) . get_template() . '/';
     if (untrailingslashit($zrodlo) === untrailingslashit($cel) || !$wp_filesystem) {
         return $zrodlo;
