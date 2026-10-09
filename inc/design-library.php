@@ -29,4 +29,7 @@ if(count($currentSites) >= 2){
 }
 
 // Zaktualizuj design sets
-setDesignSets($currentSites);
+// Luna Design 2026-10-09: zapis tylko przy zmianie listy (od Breakdance 2.8.1 setDesignSets() odpytuje breakdance.com przy kazdym wywolaniu).
+if (array_values(getRegisteredDesignSets()) !== $currentSites) {
+    setDesignSets($currentSites);
+}
