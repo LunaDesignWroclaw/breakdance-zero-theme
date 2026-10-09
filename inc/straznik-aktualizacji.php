@@ -86,7 +86,7 @@ add_filter('site_transient_update_themes', function ($dane) {
     if (!isset($dane->response[$szablon])) {
         return $dane;
     }
-    $zmiany = luna_zero_zmiany_lokalne();
+    $zmiany = luna_zero_zmiany_lokalne(true); // aktualizacja dostępna: licz na świeżo, nie z pamięci podręcznej
     if (!empty($zmiany)) {
         $wersja = is_array($dane->response[$szablon]) ? ($dane->response[$szablon]['new_version'] ?? '') : '';
         update_site_option('luna_zero_aktualizacja_zablokowana', array('wersja' => $wersja, 'zmiany' => array_slice($zmiany, 0, 30), 'czas' => time()));
@@ -94,9 +94,10 @@ add_filter('site_transient_update_themes', function ($dane) {
         unset($dane->response[$szablon]);
     }
     return $dane;
-}, 999);
+}, PHP_INT_MAX);
 
 // 2b. Na wszelki wypadek blokada w samym instalatorze (np. aktualizacja wymuszona z MainWP albo WP-CLI).
+// Priorytet PHP_INT_MAX: inne wtyczki potrafią zwracać tu null i zgubić wcześniejszy błąd.
 add_filter('upgrader_pre_install', function ($wynik, $extra = array()) {
     if (is_wp_error($wynik) || empty($extra['theme']) || $extra['theme'] !== get_template()) {
         return $wynik;
@@ -108,7 +109,7 @@ add_filter('upgrader_pre_install', function ($wynik, $extra = array()) {
             '). Przenieś kod strony do wp-content/luna-strona/.');
     }
     return $wynik;
-}, 10, 2);
+}, PHP_INT_MAX, 2);
 
 // 2c. Bez automatycznych aktualizacji motywu, gdy ma lokalne zmiany.
 add_filter('auto_update_theme', function ($aktualizuj, $element = null) {
