@@ -152,7 +152,8 @@ def main() -> None:
     granica = uuid.uuid4().hex
     cialo = (f"--{granica}\r\nContent-Disposition: form-data; name=\"project_file\"; filename=\"{nazwa}\"\r\n"
              f"Content-Type: application/zip\r\n\r\n").encode() + zip_ + \
-            (f"\r\n--{granica}\r\nContent-Disposition: form-data; name=\"type\"\r\n\r\n\r\n--{granica}--\r\n").encode()
+            (f"\r\n--{granica}\r\nContent-Disposition: form-data; name=\"type\"\r\n\r\n{a.projekt.split('/')[0][:-1]}\r\n"
+             f"--{granica}--\r\n").encode()  # type: theme / plugin (jak panel)
     s, b = zapytanie("POST", f"/v1/projects/{slug}/upload-project", token, cialo, f"multipart/form-data; boundary={granica}")
     if s not in (200, 201):
         stop(f"Appsero: wgranie paczki HTTP {s} {b[:200]!r}")
