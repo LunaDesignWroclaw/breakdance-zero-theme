@@ -1,0 +1,50 @@
+# Tag vX.Y.Z = wydanie motywu w Appsero (projekt lunadesign-zero-theme, z którego aktualizują się strony).
+# Appsero samo tego nie robi (wygasły token GitHuba po ich stronie), więc wydaje ten workflow: .github/appsero_wydanie.py
+# Ręcznie (Actions → Wydanie w Appsero → Run workflow): próba albo wydanie wskazanego tagu; projekt plugins/breakdance-zero-theme
+# jest nieużywany przez strony i służy do testów.
+name: Wydanie w Appsero
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag do wydania (np. v1.4.1)"
+        required: true
+      projekt:
+        description: "Projekt Appsero: themes/lunadesign-zero-theme (strony) albo plugins/breakdance-zero-theme (test)"
+        default: "themes/lunadesign-zero-theme"
+      wyslij:
+        description: "Publikować? (wyłączone = tylko próba)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: appsero
+  cancel-in-progress: false
+
+jobs:
+  wydanie:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Wydanie w Appsero
+        env:
+          APPSERO_TOKEN: ${{ secrets.APPSERO_TOKEN }}
+          TAG: ${{ github.event_name == 'push' && github.ref_name || inputs.tag }}
+          PROJEKT: ${{ github.event_name == 'push' && 'themes/lunadesign-zero-theme' || inputs.projekt }}
+          WYSLIJ: ${{ github.event_name == 'push' && 'true' || inputs.wyslij }}
+        run: |
+          git fetch --tags --force --quiet
+          if [ "$WYSLIJ" = "true" ]; then
+            python3 .github/appsero_wydanie.py --tag "$TAG" --projekt "$PROJEKT" --wyslij
+          else
+            python3 .github/appsero_wydanie.py --tag "$TAG" --projekt "$PROJEKT"
+          fi
