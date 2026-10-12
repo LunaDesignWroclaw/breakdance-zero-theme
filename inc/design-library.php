@@ -3,6 +3,12 @@
 use function Breakdance\DesignLibrary\setDesignSets;
 use function Breakdance\DesignLibrary\getRegisteredDesignSets;
 
+// Luna Design 2026-10-12 (1.4.1): bez Breakdance (wyłączony, w trakcie aktualizacji) nic nie rób.
+// Wcześniej wywołanie nieistniejącej funkcji dawało błąd krytyczny całej strony.
+if (!function_exists('Breakdance\DesignLibrary\getRegisteredDesignSets') || !function_exists('Breakdance\DesignLibrary\setDesignSets')) {
+    return;
+}
+
 $currentSites = getRegisteredDesignSets();
 
 $ehSites = [
