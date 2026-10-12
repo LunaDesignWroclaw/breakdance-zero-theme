@@ -1,5 +1,5 @@
 {
- "wersja": "1.4.0",
+ "wersja": "1.4.1",
  "pliki": {
   ".github/appsero_wydanie.py": "dfdaa72822b15a5cac166fc4ccd90d55",
   ".github/workflows/appsero.yml": "d2e5b47cd6e3655fba276b9a42c42b83",
@@ -47,7 +47,7 @@
   "inc/breakdance-form-actions/FluentCrmNewsletter.php": "4a9be5d3f0741ff6b58a8eebfa9f8c05",
   "inc/breakdance-form-actions/readme.md": "ddbd803ecf8de1876ffa96f060f9c2e1",
   "inc/breakdance-init.php": "4747c26365fb09ffb1c97baa04757a99",
-  "inc/design-library.php": "c20f5138dc6354d35810f30f5ca6f9ce",
+  "inc/design-library.php": "4ab6aa33086dfcd1a7371ae586efa066",
   "inc/dividers.php": "ea87afb3ba536931c3f914cef0aa2a39",
   "inc/load-js.php": "bf5a45ea7b00029b9397d6cb5fb5a742",
   "inc/reusable-dependencies.php": "1a191f17f40440e9e8e61ee8c2532d72",
@@ -57,7 +57,7 @@
   "index.php": "fb3384ca45c2796d8471750172c6a7cf",
   "readme.md": "06ebebd235dce00b1f5d6769ccd6e53b",
   "screenshot.png": "7889d3bcfe84938447284c8bd29c807b",
-  "style.css": "83086cd91f644fe9c1fef6e393223f0c",
+  "style.css": "88661b712d4364c18f0fcc6ffc196777",
   "vendor/appsero/client/.editorconfig": "1f8b4a39496d692a2eb21372b18fe609",
   "vendor/appsero/client/.github/workflows/wpcs.yml": "709babb99814fea41743ecf9954b573d",
   "vendor/appsero/client/.gitignore": "acd6d9119af64b6b717a6a472cdaaad7",
